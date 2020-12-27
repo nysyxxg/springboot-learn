@@ -12,7 +12,7 @@
     <modules>
         <module>springboot-distributed-lock-mysql</module>
         <module>springboot-distributed-lock-redis</module>
-        <!--<module>springboot-distributed-lock-zookeeper</module>-->
+        <module>springboot-distributed-lock-zk</module>
         <!--<module>springboot-distributed-lock-web</module>-->
     </modules>
 
