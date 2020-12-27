@@ -6,7 +6,9 @@ import org.I0Itec.zkclient.ZkClient;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
+/**
+ * 分布式锁
+ */
 public class ZkDistributedLock extends AbstractLock implements IZkDataListener {
 
     private ZkClient zkclient;
