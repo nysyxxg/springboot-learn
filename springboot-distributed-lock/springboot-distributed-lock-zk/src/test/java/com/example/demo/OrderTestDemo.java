@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import bat.ke.qq.com.zklock.lock.jdk.OrderServiceWithLock;
+import bat.ke.qq.com.zklock.lock.zk.OrderServiceWithZkLock;
 import bat.ke.qq.com.zklock.service.OrderService;
 
 import java.util.concurrent.BrokenBarrierException;
@@ -20,7 +21,7 @@ public class OrderTestDemo {
 
 //        OrderService orderService = new OrderServiceImpl();
 
-        OrderService orderService = new OrderServiceWithLock();
+//        OrderService orderService = new OrderServiceWithLock();
         
         //多线程模拟并发
         for (int i = 0; i <= currentThread; i++) {
@@ -28,6 +29,8 @@ public class OrderTestDemo {
                 System.out.println(Thread.currentThread().getName() + "========》用户下单");
                 //订单服务移进来 可以模拟多个 TOMCAT
                 //OrderService orderService = new OrderServiceWithLock(); //将对象放在这里和放在外面是不一样的
+    
+                OrderService orderService = new OrderServiceWithZkLock();
                 try {
                     //等待一起执行
                     cyclicBarrier.await();
