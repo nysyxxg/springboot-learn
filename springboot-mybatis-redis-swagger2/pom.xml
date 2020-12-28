@@ -110,10 +110,16 @@
         </dependency>
         <!--fastjson-->
         <dependency>
-            <groupId>maven.com.alibaba</groupId>
+            <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.47</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.alibaba</groupId>-->
+            <!--<artifactId>fastjson</artifactId>-->
+            <!--<version>1.2.70</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <artifactId>velocity</artifactId>
             <groupId>org.apache.velocity</groupId>
