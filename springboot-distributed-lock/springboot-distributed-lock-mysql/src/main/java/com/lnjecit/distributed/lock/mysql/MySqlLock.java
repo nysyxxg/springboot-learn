@@ -22,7 +22,7 @@ public class MySqlLock {
                 MethodLock methodLock = new MethodLock();
                 methodLock.setMethodName(methodName);
                 methodLock.setUpdateTime(new Date());
-
+                // 如果插入成功，代表获取成功
                 methodLockDao.insert(methodLock);
                 log.info(Thread.currentThread().getName() + "成功获取锁");
                 return;
