@@ -1,6 +1,6 @@
 package com.lnjecit.redis.controller;
 
-import com.jay.service.redis.impl.RedisLockImpl;
+import com.jay.service.redis.impl.RedisDistributionLockImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,7 +59,7 @@ public class RedisLockController {
 //    System.out.println(name + "任务执行中"+(i++)); 
         
         //创建一个redis分布式锁
-        RedisLockImpl redisLock = new RedisLockImpl(redisTemplate);
+        RedisDistributionLockImpl redisLock = new RedisDistributionLockImpl(redisTemplate);
         // 加锁时间
         Long lockTime;
         String lockKey = LOCK_NO + 1;  // 多个线程，使用同一个Key

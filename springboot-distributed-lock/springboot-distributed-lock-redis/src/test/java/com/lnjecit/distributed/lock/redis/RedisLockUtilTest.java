@@ -12,6 +12,7 @@ public class RedisLockUtilTest {
 
     static {
         JEDIS = new Jedis("127.0.0.1", 6379);
+        
 //        JEDIS.auth("123456");
     }
 

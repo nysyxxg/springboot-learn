@@ -16,6 +16,9 @@ public class DistributedLockUtil {
  
     private static RedisTemplate<Object, Object> redisTemplate;
  
+    public DistributedLockUtil(RedisTemplate<Object, Object> redisTemplate){
+        this.redisTemplate = redisTemplate;
+    }
     /**
      * 加锁默认超时时间
      */
