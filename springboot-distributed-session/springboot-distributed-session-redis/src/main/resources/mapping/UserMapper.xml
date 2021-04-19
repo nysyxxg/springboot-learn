@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--sql映射文件-->
+<mapper namespace="com.lnjecit.dao.UserMapper">
+    <!--
+            开启二级缓存;
+            二级缓存作用域：namespace;
+            Mybatis3中二级缓存默认开启
+            参数：
+                type:用来指定自定义cache的全限定名
+    -->
+    <cache type="com.lnjecit.cache.RedisCache"/>
+
+    <select id="selectAll" resultType="com.lnjecit.entity.User">
+        select id,name,password
+        from users
+    </select>
+
+    <select id="selectById" resultType="com.lnjecit.entity.User" parameterType="String">
+        select id,name,password
+        from users
+        where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.lnjecit.entity.User">
+        insert into users (id, name, password)
+        values (#{id}, #{name}, #{password})
+    </insert>
+
+    <update id="updateById" parameterType="com.lnjecit.entity.User">
+        update users
+        set name #
+            {
+            name
+            },
+            password =
+            #{password}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="com.lnjecit.entity.User">
+        delete
+        from users
+        where id = #{id}
+    </delete>
+
+</mapper>
