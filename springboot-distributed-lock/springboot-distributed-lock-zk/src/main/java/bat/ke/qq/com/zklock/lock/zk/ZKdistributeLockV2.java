@@ -24,6 +24,7 @@ public class ZKdistributeLockV2 implements Lock {
         client = new ZkClient("localhost:2181");
         client.setZkSerializer(new MyZkSerializer());
     }
+    
     @Override
     public void lock() {
         //如果获取不到锁 阻塞等待
@@ -34,10 +35,8 @@ public class ZKdistributeLockV2 implements Lock {
         }
     }
 
-
     private void waitForLock() {
         CountDownLatch countDownLatch = new CountDownLatch(1);
-
         IZkDataListener listener = new IZkDataListener() {
             @Override
             public void handleDataChange(String s, Object o) throws Exception {

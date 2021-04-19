@@ -7,7 +7,7 @@ public abstract class AbstractLock implements Lock {
             System.out.println("获取锁-------");
         }else {
             waitLock();
-            lock();
+            lock();// 递归调用，获取锁
         }
 
     }

@@ -12,11 +12,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @RestController
 public class OrderController {
-    
     
     @Autowired
     private OrderCodeGenerator orderCodeGenerator;
@@ -27,8 +27,8 @@ public class OrderController {
     @Autowired
     private InterProcessMutex cunratorLock;
     
+    private ExecutorService service;
     
-    private java.util.concurrent.locks.Lock lock = new ReentrantLock();
     
     @RequestMapping("/getOrderCode")
     public void getOrderCode() {
@@ -39,8 +39,32 @@ public class OrderController {
         } finally {
             zkLock.unlock();
         }
-        
     }
+    
+    @RequestMapping("/getOrderCode1")
+    public void getOrderCode1() {
+        service = Executors.newFixedThreadPool(20);
+        for (int i = 0; i < 100; i++) { // 模拟100个线程
+            service.execute(new Runnable() {
+                @Override
+                public void run() {
+                    task(Thread.currentThread().getName());
+                }
+            });
+        }
+       
+    }
+    
+    private void task(String name) {
+        try {
+            zkLock.lock();
+            String orderCode = orderCodeGenerator.getOrderCode();
+            System.out.println("线程名称: " + name + "  生产订单号：" + orderCode);
+        } finally {
+            zkLock.unlock();
+        }
+    }
+    
     
     @Bean
     public Lock zkLock() {
@@ -79,7 +103,6 @@ public class OrderController {
      * Curator是ZooKeeper的一个客户端框架，其中封装了分布式互斥锁的实现，最为常用的是InterProcessMutex
      * InterProcessMutex基于Zookeeper实现了分布式的公平可重入互斥锁
      * InterProcessMutex的特性
-     * <p>
      * 分布式锁（基于Zookeeper）
      * 互斥锁
      * 公平锁（监听上一临时顺序节点 + wait() / notifyAll()）
@@ -97,6 +120,5 @@ public class OrderController {
         //retryPolicy 重试策略
         client.start();
         return new InterProcessMutex(client, path);
-        
     }
 }

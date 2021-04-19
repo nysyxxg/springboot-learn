@@ -11,6 +11,11 @@ public class OrderCodeGenerator {
     
     //生成订单号
     public String getOrderCode() {
+        try {
+            Thread.sleep(1* 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         return simpleDateFormat.format(new Date()) + "-" + ++count;
     }

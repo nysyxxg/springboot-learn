@@ -26,8 +26,6 @@ public class OrderServiceWithZkLock implements OrderService {
         }
 
         System.out.println(Thread.currentThread().getName() + "=============>" + orderCode);
-
         //业务代码 此处省略100行代码
-
     }
 }
