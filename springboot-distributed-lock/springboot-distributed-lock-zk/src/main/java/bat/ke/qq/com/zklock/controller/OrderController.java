@@ -1,8 +1,11 @@
 package bat.ke.qq.com.zklock.controller;
 
+import bat.ke.qq.com.zklock.demo.SimpleDistributedLockMutex;
 import bat.ke.qq.com.zklock.lock.Lock;
+import bat.ke.qq.com.zklock.lock.zk.ZKdistributeLockV2;
 import bat.ke.qq.com.zklock.lock.zk.ZkDistributedLock;
 import bat.ke.qq.com.zklock.service.OrderCodeGenerator;
+import org.I0Itec.zkclient.ZkClient;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
@@ -14,7 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
+/**
+ * 测试地址：
+ * http://localhost:8081/getOrderCode3
+ */
 @RestController
 public class OrderController {
     
@@ -26,6 +34,9 @@ public class OrderController {
     
     @Autowired
     private InterProcessMutex cunratorLock;
+    
+    @Autowired
+    private SimpleDistributedLockMutex simpleDistributedLockMutex;
     
     private ExecutorService service;
     
@@ -52,7 +63,7 @@ public class OrderController {
                 }
             });
         }
-       
+        
     }
     
     private void task(String name) {
@@ -71,7 +82,8 @@ public class OrderController {
         //基于临时节点
         String config = "127.0.0.1:2181";
         String path = "/lock";
-        return new ZkDistributedLock(path, config);
+//        return new ZkDistributedLock(path, config);
+        return new ZKdistributeLockV2(path, config);
     }
     
     /**
@@ -121,4 +133,50 @@ public class OrderController {
         client.start();
         return new InterProcessMutex(client, path);
     }
+    
+    
+    @Bean
+    public SimpleDistributedLockMutex getZkLock() {
+        //基于临时节点
+        String config = "127.0.0.1:2181";
+        String basePath = "/lock";
+        ZkClient client = new ZkClient(config);
+        return new SimpleDistributedLockMutex(client, basePath);
+    }
+    
+    
+    @RequestMapping("/getOrderCode3")
+    public void getOrderCode3() {
+        service = Executors.newFixedThreadPool(20);
+        for (int i = 0; i < 100; i++) { // 模拟100个线程
+            service.execute(new Runnable() {
+                @Override
+                public void run() {
+                    runOrderTask(Thread.currentThread().getName());
+                }
+            });
+        }
+        
+    }
+    
+    private void runOrderTask(String name) {
+        try {
+            // 不带超时
+            simpleDistributedLockMutex.acquire();
+//            simpleDistributedLockMutex.acquire(2, TimeUnit.SECONDS);//如果设置时间，造成锁超时，就会抛出异常，不会只想后面的订单生产代码
+            String orderCode = orderCodeGenerator.getOrderCode();
+            System.out.println("线程名称: " + name + "  生产订单号：" + orderCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                simpleDistributedLockMutex.release();
+                System.out.println("线程名称: " + name + "  释放锁........." );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
 }

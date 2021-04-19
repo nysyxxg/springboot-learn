@@ -1,9 +1,9 @@
 package bat.ke.qq.com.zklock.lock.zk;
 
+import bat.ke.qq.com.zklock.lock.Lock;
 import bat.ke.qq.com.zklock.service.OrderCodeGenerator;
 import bat.ke.qq.com.zklock.service.OrderService;
 
-import java.util.concurrent.locks.Lock;
 
 /**
  */

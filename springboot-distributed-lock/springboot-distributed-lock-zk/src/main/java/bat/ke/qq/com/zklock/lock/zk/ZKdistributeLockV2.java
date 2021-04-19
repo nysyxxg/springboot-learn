@@ -1,13 +1,11 @@
 package bat.ke.qq.com.zklock.lock.zk;
 
+import bat.ke.qq.com.zklock.lock.Lock;
 import org.I0Itec.zkclient.IZkChildListener;
 import org.I0Itec.zkclient.IZkDataListener;
 import org.I0Itec.zkclient.ZkClient;
 import org.I0Itec.zkclient.exception.ZkNodeExistsException;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
 
 /**
  * 分布式锁
@@ -15,14 +13,21 @@ import java.util.concurrent.locks.Lock;
 public class ZKdistributeLockV2 implements Lock {
 
     private String lockPath;
+    
+    private  String config;
 
     private ZkClient client;
 
-    public ZKdistributeLockV2(String lockPath){
+    public ZKdistributeLockV2(String lockPath, String config){
         super();
+        this.config = config;
         this.lockPath = lockPath;
-        client = new ZkClient("localhost:2181");
+        client = new ZkClient(config);
         client.setZkSerializer(new MyZkSerializer());
+    }
+    
+    public ZKdistributeLockV2(String lockPath) {
+        this.lockPath = lockPath;
     }
     
     @Override
@@ -35,7 +40,7 @@ public class ZKdistributeLockV2 implements Lock {
         }
     }
 
-    private void waitForLock() {
+    private void waitForLock() {  // 等待获取锁
         CountDownLatch countDownLatch = new CountDownLatch(1);
         IZkDataListener listener = new IZkDataListener() {
             @Override
@@ -61,34 +66,21 @@ public class ZKdistributeLockV2 implements Lock {
         client.unsubscribeChildChanges(lockPath, (IZkChildListener) listener);
     }
 
-    @Override
     public boolean tryLock() {  //不会阻塞
         //创建节点
         try {
-            client.createEphemeral(lockPath);
+            client.createEphemeral(lockPath);// 如果创建成功，说明就获取锁
         } catch (ZkNodeExistsException e) {
-            return false;
+            return false;//  如果这个节点，没有创建成功，就失败
         }
         return true;
     }
 
-    @Override
-    public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
-        return false;
-    }
 
     @Override
     public void unlock() {
         client.delete(lockPath);
     }
 
-    @Override
-    public Condition newCondition() {
-        return null;
-    }
-
-    @Override
-    public void lockInterruptibly() throws InterruptedException {
-
-    }
+    
 }

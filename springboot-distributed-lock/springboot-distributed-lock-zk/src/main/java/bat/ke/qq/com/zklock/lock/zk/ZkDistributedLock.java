@@ -31,7 +31,7 @@ public class ZkDistributedLock extends AbstractLock implements IZkDataListener {
                 zkclient = new ZkClient(config);
             }
             //创建临时节点
-            zkclient.createEphemeral(path);
+            zkclient.createEphemeral(path);  // 这种缺点就是所有的线程，都只监控这一个节点
         } catch (Exception e) {
             //存在节点
             return false;
@@ -72,6 +72,7 @@ public class ZkDistributedLock extends AbstractLock implements IZkDataListener {
     @Override
     public void handleDataDeleted(String dataPath) throws Exception {
         if (countDownLatch != null) {
+            System.out.println("----收到节点被删除了");
             countDownLatch.countDown();//计数器自减1 即 节点删除之后 计数器变为0
             
         }
