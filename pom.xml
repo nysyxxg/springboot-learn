@@ -27,6 +27,7 @@
         <module>springboot-http-client</module>
         <module>demo-spring-boot-starter</module>
         <module>springboot-distributed-lock</module>
+        <module>springboot-distributed-session</module>
         <module>springboot-elk</module>
         <module>springboot-graceful-shutdown</module>
         <module>springboot-websocket</module>

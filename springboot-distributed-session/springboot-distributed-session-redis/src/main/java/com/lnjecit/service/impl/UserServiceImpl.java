@@ -21,4 +21,9 @@ public class UserServiceImpl  implements UserService {
         System.out.println("host:" + jdbcConfig.host);
         System.out.println("port:" + jdbcConfig.port);
     }
+    
+    @Override
+    public void getJdbcConfigFromEnv() {
+    
+    }
 }

@@ -1,6 +1,6 @@
 package com.lnjecit.service;
 
-public interface UserService {
+public interface UserServiceV1 {
     public void getJdbcConfig();
     
     public void getJdbcConfigFromEnv();

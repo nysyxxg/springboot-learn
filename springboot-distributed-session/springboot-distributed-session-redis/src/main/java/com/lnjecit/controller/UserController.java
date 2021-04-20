@@ -2,6 +2,7 @@ package com.lnjecit.controller;
 
 import com.lnjecit.config.JdbcConfig;
 import com.lnjecit.service.UserService;
+import com.lnjecit.service.UserServiceV1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,10 @@ public class UserController {
     @Qualifier("UserServiceImplV2") //使用 UserServiceImplV2 这个实现类
     private UserService userService;
     
+    @Autowired
+    @Qualifier("UserServiceImplV1")
+    private UserServiceV1 userServiceV1;
+    
     @GetMapping("getSessionId")
     public String getSessionId(HttpServletRequest request) {
         String sessionId = request.getSession().getId();
@@ -48,6 +53,19 @@ public class UserController {
         System.out.println(sessionId);
     
         userService.getJdbcConfig();
+    
+        userService.getJdbcConfigFromEnv();
+        
+        return sessionId;
+    }
+    
+    
+    @GetMapping("getJdbcConfig1")
+    public String getJdbcConfig1(HttpServletRequest request) {
+        String sessionId = request.getSession().getId();
+        System.out.println(sessionId);
+    
+        userServiceV1.getJdbcConfigFromEnv();
         
         return sessionId;
     }

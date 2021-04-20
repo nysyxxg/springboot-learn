@@ -3,13 +3,14 @@ package com.lnjecit.service.impl;
 import com.lnjecit.component.RunEnvironment;
 import com.lnjecit.config.JdbcConfig;
 import com.lnjecit.service.UserService;
+import com.lnjecit.service.UserServiceV1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-@Qualifier("UserServiceImplV2")
-public class UserServiceImplV2 implements UserService {
+@Qualifier("UserServiceImplV1")
+public class UserServiceImplV1 implements UserServiceV1 {
     
     @Autowired
     private JdbcConfig jdbcConfig;

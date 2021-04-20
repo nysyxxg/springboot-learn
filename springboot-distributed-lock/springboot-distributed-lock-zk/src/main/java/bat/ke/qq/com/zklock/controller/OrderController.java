@@ -134,7 +134,8 @@ public class OrderController {
         return new InterProcessMutex(client, path);
     }
     
-    
+    //@Bean注解告诉Spring这个方法将会返回一个对象，这个对象要注册为Spring应用上下文中的bean。
+    // 通常方法体中包含了最终产生bean实例的逻辑
     @Bean
     public SimpleDistributedLockMutex getZkLock() {
         //基于临时节点
