@@ -52,7 +52,7 @@ public class TestRedisController {
         Map<String, Object> map = new HashMap<>();
         map.put("session_id", session.getId());
         map.put("session_key", key);
-        map.put("session_value", session.getAttribute(key));
+        map.put("session_value", session.getAttribute(key));// 可以存储到redis
         return map;
     }
     @RequestMapping(value = "/setRedis", method = RequestMethod.GET)
