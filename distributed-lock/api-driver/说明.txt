@@ -1,0 +1,8 @@
+nohup java -jar api-driver-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev &
+
+
+linux:
+curl 127.0.0.1:8003/grab/do-mysql/1?driverId=1
+
+
+curl 192.168.110.201:8003/grab/do-mysql/1?driverId=1
