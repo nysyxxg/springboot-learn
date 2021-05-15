@@ -3,6 +3,8 @@ package com.lnjecit.springboo.elastic.job.component;
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.lnjecit.springboo.elastic.job.bean.FileCustom;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -14,6 +16,7 @@ import java.util.List;
  */
 @Component
 public class FileBackupJob implements SimpleJob {
+    private static final Logger logger = LoggerFactory.getLogger(FileBackupJob.class);
     
     //每次任务执行要备份文件的数量
     private final int FETCH_SIZE = 1;
@@ -38,7 +41,7 @@ public class FileBackupJob implements SimpleJob {
     //任务执行代码逻辑
     @Override
     public void execute(ShardingContext shardingContext) {
-        System.out.println("作业分片：" + shardingContext.getShardingItem());
+        logger.info("作业分片：" + shardingContext.getShardingItem());
         //分片参数，（0=text,1=image,2=radio,3=vedio，参数就是text、image...）
         String jobParameter = shardingContext.getJobParameter();
         

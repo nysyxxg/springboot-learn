@@ -7,18 +7,18 @@ import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperConfiguration;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
-import com.lnjecit.springboo.elastic.job.component.FileBackupJob;
 import com.lnjecit.springboo.elastic.job.component.MyJob;
 
 /**
  * 启动任务
  */
-public class JobMainDriver {
+public class JobMainDriver1 {
     private static String serverLists = "localhost:2181";
-    private static String namespace = "data-archive-job-0";
+    private static String namespace = "data-archive-job-1";
     
     public static void main(String[] args) {
         CoordinatorRegistryCenter coordinatorRegistryCenter = setUpRegistryCenter();
+        
         // 配置任务（时间事件、定时任务业务逻辑、调度器）
         startJob(coordinatorRegistryCenter);
     }
@@ -37,7 +37,7 @@ public class JobMainDriver {
     
     // 任务配置和启动任务
     private static void startJob(CoordinatorRegistryCenter coordinatorRegistryCenter) {
-        String jobName = "archive-job-0";
+        String jobName = "archive-job-1";
         String cron = "*/2 * * * * ?";
         int shardingTotalCount = 1;
         String jobClass = MyJob.class.getName();

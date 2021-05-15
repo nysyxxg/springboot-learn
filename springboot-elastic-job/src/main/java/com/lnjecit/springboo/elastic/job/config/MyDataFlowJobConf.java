@@ -27,6 +27,7 @@ public class MyDataFlowJobConf {
     public JobScheduler dataFlowJobScheduler(@Value("${myDataFlowJob.cron}") final String cron,  //yml注入
                                              @Value("${myDataFlowJob.shardingTotalCount}") final int shardingTotalCount,
                                              @Value("${myDataFlowJob.shardingItemParameters}") final String shardingItemParameters) {
+      
         return new SpringJobScheduler(myDataFlowJob, regCenter,
                 ElasticJobUtils.getDataFlowJobConfiguration(
                         myDataFlowJob.getClass(),

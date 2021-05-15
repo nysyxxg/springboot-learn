@@ -4,6 +4,8 @@ import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.lnjecit.springboo.elastic.job.bean.FileCustom;
 import com.lnjecit.springboo.elastic.job.service.FileService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,9 @@ import java.util.List;
 @Component
 public class FileBackupJobDb implements SimpleJob {
     
+    private static final Logger logger = LoggerFactory.getLogger(FileBackupJobDb.class);
+    
+    
     //每次任务执行要备份文件的数量
     private final int FETCH_SIZE = 1;
     
@@ -25,7 +30,7 @@ public class FileBackupJobDb implements SimpleJob {
     //任务执行代码逻辑
     @Override
     public void execute(ShardingContext shardingContext) {
-        System.out.println("作业分片：" + shardingContext.getShardingItem());
+        logger.info("作业分片：" + shardingContext.getShardingItem());
         //分片参数，（0=text,1=image,2=radio,3=vedio，参数就是text、image...）
         String jobParameter = shardingContext.getShardingParameter();
         //获取未备份的文件
@@ -43,7 +48,7 @@ public class FileBackupJobDb implements SimpleJob {
     public List<FileCustom> fetchUnBackupFiles(String fileType, int count) {
         
         List<FileCustom> fileCustoms = fileService.fetchUnBackupFiles(fileType, count);
-        System.out.printf("time:%s,获取文件%d个\n", LocalDateTime.now(), count);
+        logger.info("time:%s,获取文件%d个\n", LocalDateTime.now(), count);
         return fileCustoms;
         
     }
