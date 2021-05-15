@@ -1,4 +1,4 @@
-package com.lnjecit.springboo.elastic.job.job;
+package com.lnjecit.springboo.elastic.job.component;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;

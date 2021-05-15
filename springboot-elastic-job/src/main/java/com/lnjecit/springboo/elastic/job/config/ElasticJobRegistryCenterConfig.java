@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class ElasticJobRegistryCenterConfig {
     
     //zookeeper链接字符串 localhost:2181
-    private String ZOOKEEPER_CONNECTION_STRING = "192.168.180.113:2181";
+    private String ZOOKEEPER_CONNECTION_STRING = "localhost:2181";
     //定时任务命名空间
     private String JOB_NAMESPACE = "elastic-job-boot-java";
     

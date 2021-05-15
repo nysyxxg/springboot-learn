@@ -1,5 +1,6 @@
 package com.lnjecit.springboo.elastic.job.controller;
 
+import com.lnjecit.springboo.elastic.job.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloWorldController {
     
+    @Autowired
+    FileService fileService;
     
     @RequestMapping("/sayHello")
     public String sayHello(@RequestParam("name") String name) {
+        fileService.println();
         return "Hi, " + name;
     }
     
