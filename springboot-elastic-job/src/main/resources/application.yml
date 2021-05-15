@@ -4,3 +4,7 @@ spring:
     username : root
     password : 123456
     driver-class-name: com.mysql.jdbc.Driver
+
+logging:
+  level:
+    com.lnjecit.springboo.elastic.job.component: info

@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 次任务在每次执行时获取一定数目的文件，进行备份处理，有File实体类FileCustom的backedUp属性，来标识改文件是否已经备份
+ */
 @Component
 public class FileBackupJob implements SimpleJob {
     
@@ -28,6 +31,10 @@ public class FileBackupJob implements SimpleJob {
         System.out.println("生产测试数据完成");
     }
     
+    /**
+     * 任务调度的执行方法
+     * @param shardingContext
+     */
     //任务执行代码逻辑
     @Override
     public void execute(ShardingContext shardingContext) {
@@ -43,7 +50,6 @@ public class FileBackupJob implements SimpleJob {
     
     /**
      * 获取未备份的文件
-     *
      * @param count 文件数量
      * @return
      */
@@ -68,8 +74,7 @@ public class FileBackupJob implements SimpleJob {
     }
     
     /**
-     * 文件备份
-     *
+     * 文件备份，改变文件属性的状态
      * @param files
      */
     public void backupFiles(List<FileCustom> files) {

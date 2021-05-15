@@ -70,7 +70,8 @@ public class ElasticJobConfig {
                                                         final int shardingTotalCount,
                                                         final String shardingItemParameters){
         //JobCoreConfigurationBuilder
-        JobCoreConfiguration.Builder JobCoreConfigurationBuilder = JobCoreConfiguration.newBuilder(jobClass.getName(), cron, shardingTotalCount);
+        JobCoreConfiguration.Builder JobCoreConfigurationBuilder =
+                JobCoreConfiguration.newBuilder(jobClass.getName(), cron, shardingTotalCount);
         //设置shardingItemParameters
         if(!StringUtils.isEmpty(shardingItemParameters)){
             JobCoreConfigurationBuilder.shardingItemParameters(shardingItemParameters);
